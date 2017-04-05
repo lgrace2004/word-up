@@ -53,7 +53,18 @@ function addNewWordSubmission(word) {
     // Do we already have a wordSubmission with this word?
     // TODO 21
     // replace the hardcoded 'false' with the real answer
-    var alreadyUsed = false;
+    var alreadyUsed;
+    var foundWord = model.wordSubmissions.find(function(element) {
+        return element.word === word;
+    });
+
+    if (foundWord) {
+        alreadyUsed = true;
+    }
+    else {
+        alreadyUsed = false;
+    }
+
 
     // if the word is valid and hasn't already been used, add it
     if (containsOnlyAllowedLetters(word) && alreadyUsed == false) {
@@ -222,23 +233,32 @@ function wordSubmissionChip(wordSubmission) {
     var wordChip = $("<span></span>")
         .text(wordSubmission.word)
         .attr("class", "tag tag-lg word-submission");
+        var scoreChip = $("<span></span>");
 
     // if we know the status of this word (real word or not), then add a green score or red X
     if (wordSubmission.hasOwnProperty("isRealWord")) {
-        var scoreChip = $("<span></span>").text("⟐");
+        scoreChip.text(wordScore(wordSubmission.word))
+        .attr("class", "tag tag-default tag-xs correct-word-chip");
+    }
+    else {
+        scoreChip.text("X")
+        .attr("class","tag tag-default tag-xs incorrect-word-chip");
+    }
         // TODO 17
         // give the scoreChip appropriate text content
+
 
         // TODO 18
         // give the scoreChip appropriate css classes
 
         // TODO 16
         // append scoreChip into wordChip
+        wordChip.append(scoreChip);
 
-    }
+
 
     return wordChip;
-}
+    }
 
 /**
  * Given a disallowed letter, returns a DOM element to display the letter
@@ -332,8 +352,8 @@ function disallowedLettersInWord(word) {
 function containsOnlyAllowedLetters(word) {
     // TODO 12
     // Return the actual answer.
-    console.log("disallowed",disallowedLettersInWord(word));
-    console.log("true? ",disallowedLettersInWord(word).length===0);
+    //console.log("disallowed",disallowedLettersInWord(word));
+    //console.log("true? ",disallowedLettersInWord(word).length===0);
 
     if (disallowedLettersInWord(word).length === 0) {
         return true;
@@ -368,7 +388,9 @@ function wordScore(word) {
     // TODO 19
     // Replace the empty list below.
     // Map the list of letters into a list of scores, one for each letter.
-    var letterScores = [];
+    var letterScores = letters.map(function(element) {
+        return letterScore(element);
+    });
 
     // return the total sum of the letter scores
     return letterScores.reduce(add, 0);
@@ -392,7 +414,7 @@ function currentScore() {
 
     // TODO 20
     // return the total sum of the word scores
-    return 0;
+    return wordScores.reduce(add,0);
 }
 
 

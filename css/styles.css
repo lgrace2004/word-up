@@ -39,6 +39,10 @@ main {
     font-size: 14px;
     margin-left: 0.4em;
 }
+.tag-xs {
+    font-size: 12px;
+    margin-left: 0.2em;
+}
 
 .word-submission {
     font-size: 30px;
@@ -53,6 +57,17 @@ main {
 
 .scoreboard-data {
     font-size: 60px;
+}
+
+.correct-word-chip {
+    color:: white;
+    background-color: #4285F4;
+
+}
+.incorrect-word-chip {
+    color: white;
+    background-color: red;
+    margin-left: 10px;
 }
 
 input {
